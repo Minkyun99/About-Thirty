@@ -22,6 +22,7 @@
 
 <script>
 // import { getCurrentInstance, onMounted, reactive } from '@vue/runtime-core'
+/*dayjs 설치 필요*/
 import dayjs from 'dayjs'
 
 export default {
