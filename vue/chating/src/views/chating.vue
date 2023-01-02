@@ -3,7 +3,7 @@
     안녕하세요. 채팅창을 만들고 있는 중입니다...
     <div>
       <ul>
-        <li v-for="i in text_save" :key="i">{{ inValue }}</li>
+        <li v-for="i in setData" :key="i">{{ inValue }}</li>
       </ul>
     </div>
     <div>
@@ -24,8 +24,8 @@ export default {
   data() {
     return {
       inValue: '',
-      temp: '',
-      text_save: []
+      temp: ''
+      // text_save: []
     }
   },
 
@@ -36,10 +36,9 @@ export default {
 
     setData: function () {
       if (this.inValue) {
-        this.text_save.push(this.inValue)
+        // this.text_save.push(this.inValue)
         this.temp = this.inValue
         this.inValue = ''
-        this.text_save = ''
       }
     }
   }
