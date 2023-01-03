@@ -33,7 +33,7 @@ export default {
     login() {
       if (this.id_value.length > 0 && this.psw_value.length >= 5) {
         alert('로그인 되었습니다.')
-        location.replace('http://localhost:8080/chating')
+        location.replace('http://localhost:8081/chating')
       } else {
         alert('로그인 실패!')
         this.id_value = ''

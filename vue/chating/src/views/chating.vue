@@ -1,20 +1,21 @@
 <template>
   <div id="container">
     <div id="screen">
-      <div v-for="data in arrmeg" :key="data" id="talk">
-        <div id="time">{{ time }}</div>
-        <div id="message">{{ data }}</div>
+      <div id="screen_detail">
+        <div v-for="data in Ameg" :key="data" id="talk">
+          <div id="time">{{ time }}</div>
+          <div id="message">{{ data }}</div>
+        </div>
       </div>
       <div id="input_container">
         <input
           id="text_box"
           type="text"
+          v-on:keyup.enter="A()"
           v-model="message"
-          v-on:keyup.enter="chatSubmit"
           autocomplete="off"
         />
-        <button @click="chatSubmit()" id="send_button">전송</button>
-        <!-- <button @click="del_all">대화내용삭제</button> -->
+        <button @click="A()" id="send_button">전송</button>
       </div>
     </div>
   </div>
@@ -22,32 +23,58 @@
 
 <script>
 // import { getCurrentInstance, onMounted, reactive } from '@vue/runtime-core'
-/*dayjs 설치 필요*/
 import dayjs from 'dayjs'
 
 export default {
   name: 'App',
   data() {
     return {
-      arrmeg: [],
+      // arrmeg: [],
+      Ameg: [],
+      // ARR: [],
       message: '',
+      // messages: '',
       textarea: '',
+      // Q: [],
       time: dayjs().format('HH:mm')
     }
   },
 
-  methods: {
-    chatSubmit: function () {
-      if (this.message) {
-        this.$socket.emit('chat message', this.message)
-        this.arrmeg.push(this.message)
-        this.message = ''
-      }
-    }
+  created() {
+    this.$socket.on('chat message', (v) => {
+      window.scrollTo(0, document.body.scrollHeight)
+      this.Ameg.push(v.data)
+    })
   },
 
-  del_all: function () {
-    this.arrmeg = []
+  methods: {
+    A: function () {
+      if (this.message) {
+        this.$socket.emit('chat message', { message: this.message })
+        this.Ameg.push(this.message)
+        this.message = ''
+      }
+    },
+
+    // me: function () {
+    //   if (this.message) {
+    //     this.$socket.emit('my chat', this.message)
+    //     this.arrmeg.push(this.message)
+    //     this.message = ''
+    //   }
+    // },
+
+    // chatSubmit: function () {
+    //   this.$socket.on('chat message', (msg) => {
+    //     this.Ameg.push(msg)
+    //   })
+
+    // this.message = ''
+    // },
+
+    del_all: function () {
+      this.arrmeg = []
+    }
   }
 }
 </script>
@@ -60,7 +87,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: blue; */
 }
 
 #screen {
@@ -70,19 +96,33 @@ export default {
   background-image: url(../../public/i013883833765.gif);
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: center;
+  overflow: auto;
+}
+
+#screen_detail {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  align-items: flex-end;
+  margin-right: 10px;
 }
 
 #input_container {
   position: fixed;
-  bottom: 100px;
+  bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #text_box {
-  width: 400px;
-  height: 35px;
+  width: 300px;
+  height: 30px;
+  font-size: 18px;
   flex-grow: 1px;
   border-radius: 32px;
+  padding: 10px;
 }
 
 #send_button {
@@ -112,12 +152,14 @@ export default {
   width: auto;
   max-width: 300px;
   height: auto;
+  word-break: break-all;
   border-radius: 10px;
   border: 1px solid darkcyan;
-  background-color: rgba(255, 255, 255, 0.486);
+  background-color: rgba(255, 255, 255, 0.9);
   font-size: 18px;
   font-weight: 500;
   margin-right: 30px;
+  padding: 10px;
 }
 
 li {
