@@ -1,7 +1,8 @@
 # chating
 
 ## Project setup
-```
+socket을 사용하여 구현한 채팅 프로그램입니다.
+
 npm install
 ```
 
